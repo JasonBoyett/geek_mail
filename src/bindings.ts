@@ -26,7 +26,7 @@ export type DemoEvent = string
 
 import {
   invoke as TAURI_INVOKE,
-  Channel as TAURI_CHANNEL,
+  // Channel as TAURI_CHANNEL,
 } from "@tauri-apps/api/core"
 import * as TAURI_API_EVENT from "@tauri-apps/api/event"
 import { type WebviewWindow as __WebviewWindow__ } from "@tauri-apps/api/webviewWindow"
@@ -39,8 +39,8 @@ type __EventObj__<T> = {
     cb: TAURI_API_EVENT.EventCallback<T>,
   ) => ReturnType<typeof TAURI_API_EVENT.once<T>>
   emit: T extends null
-    ? (payload?: T) => ReturnType<typeof TAURI_API_EVENT.emit>
-    : (payload: T) => ReturnType<typeof TAURI_API_EVENT.emit>
+  ? (payload?: T) => ReturnType<typeof TAURI_API_EVENT.emit>
+  : (payload: T) => ReturnType<typeof TAURI_API_EVENT.emit>
 }
 
 export type Result<T, E> =
@@ -60,7 +60,7 @@ function __makeEvents__<T extends Record<string, any>>(
       get: (_, event) => {
         const name = mappings[event as keyof T]
 
-        return new Proxy((() => {}) as any, {
+        return new Proxy((() => { }) as any, {
           apply: (_, __, [window]: [__WebviewWindow__]) => ({
             listen: (arg: any) => window.listen(name, arg),
             once: (arg: any) => window.once(name, arg),
