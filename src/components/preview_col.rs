@@ -10,7 +10,7 @@ pub struct PreviewColProps {
 }
 pub fn PreviewCol(props: PreviewColProps) -> Element {
     rsx! {
-        div { class: "col min-w-fill",
+        div { class: "col overflow-y-auto min-w-fill max-h-screen",
             {(0..props.emails.len()).map(|i| {
                 rsx! {
                     Preview {

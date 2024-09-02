@@ -21,12 +21,21 @@ pub fn Preview(props: PreviewArgs) -> Element {
         EmailType::Sent(_) => true,
         EmailType::Received(email) => !email.read,
     });
+    let preview_text = match props.email.plain_text.len() {
+        0..=50 => props.email.plain_text,
+        _ => &format!("{}...", &props.email.plain_text[0..50]),
+    };
+
     rsx! {
         div {
             class: "ml-2 flex h-24 w-60 justify-center border-b border-t border-slate-600 text-left",
             //below is some tuple type magic shinanigans. Basically we are just setting
             //the currently selected email number to the id of the email that was clicked
             onclick: move |_| {
+                if currently_selected_email_number() == id {
+                    currently_selected_email_number.write().0 = None;
+                    return;
+                }
                 currently_selected_email_number.write().0 = id.0;
                 if show_read() {
                     match props.email.email_type {
@@ -45,7 +54,7 @@ pub fn Preview(props: PreviewArgs) -> Element {
                     {props.email.subject}
                 }
                 p { class: "ml-2 text-left font-bold text-neutral-50", {display_name} }
-                p { class: "ml-2 text-left text-xs text-neutral-300", {props.email.plain_text} }
+                p { class: "ml-2 text-left text-xs text-neutral-300", {preview_text} }
             }
         }
     }

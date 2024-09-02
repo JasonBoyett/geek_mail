@@ -18,7 +18,7 @@ fn main() {
 fn App() -> Element {
     // Build cool things ✌️
 
-    let emails = get_sample_emails(7);
+    let emails = get_sample_emails(700);
     let selected_email_number = use_context_provider(|| Signal::new(SelectedEmailNumber(None)));
     let selected_email: Option<Email> = selected_email_number()
         .0
