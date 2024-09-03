@@ -1,8 +1,5 @@
-// use random_choice::random_choice;
-pub fn get_geek_phrase(choice: Option<u32>) -> String {
-    // I know that hard coding all of these is bad practice,
-    // I'll stick them in a file later.
-    // TODO: Move these phrases to a file
+use getrandom::getrandom;
+pub fn get_geek_phrase() -> &'static str {
     let phrases = vec![
         "Rust by the way.",
         "Vim by the way.",
@@ -102,13 +99,15 @@ pub fn get_geek_phrase(choice: Option<u32>) -> String {
         "It’s not just magic, it’s Email magic.",
         "The Marauder’s Map: Finding your way through your inbox",
     ];
-    // let weights = vec![1.0; phrases.len()];
+    phrases[get_random_number_in_range(0..phrases.len() as u32) as usize]
+}
 
-    // let choice = random_choice().random_choice_f64(&phrases, &weights, 1);
+fn get_random_number_in_range(range: std::ops::Range<u32>) -> u32 {
+    let mut random_index = [0u8; 1];
 
-    // choice[0].to_string()
-    match choice {
-        Some(choice) => phrases[choice as usize].to_string(),
-        None => "Rust by the way.".to_string(),
-    }
+    let random_u8_number = match getrandom(&mut random_index) {
+        Ok(_) => random_index[0],
+        Err(_) => 0,
+    };
+    (random_u8_number as u32 * (range.end - range.start)) / 256 + range.start
 }
