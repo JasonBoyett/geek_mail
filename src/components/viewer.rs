@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 
+use crate::backend::types::context::SelectedEmailNumber;
 use dioxus::prelude::*;
 
 use crate::backend::{geek_phrase::get_geek_phrase, types::email::Email};
@@ -33,8 +34,9 @@ fn EmptyViewer() -> Element {
         div { class: "h-full items-center justify-center border-l
                         border-slate-600 text-left",
             div { class: "ml-6",
-                div { class: "flex w-full min-h-screen text-center text-4xl items-center justify-center",
-                    { get_geek_phrase() }
+                div { class: "flex w-full min-h-screen text-center
+                        text-4xl items-center justify-center",
+                    { get_geek_phrase(None) }
                 }
             }
         }

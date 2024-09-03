@@ -9,7 +9,9 @@ edition = "2021"
 [dependencies]
 
 dioxus = { version = "0.5", features = ["web"] }
+rand="0.3.14"
 
 # Debug
 dioxus-logger = "0.5.1"
 imp = "0.1.0"
+random_choice = "0.3.2"
