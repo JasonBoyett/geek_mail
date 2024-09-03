@@ -111,3 +111,30 @@ fn get_random_number_in_range(range: std::ops::Range<u32>) -> u32 {
     };
     (random_u8_number as u32 * (range.end - range.start)) / 256 + range.start
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_numbers_are_random() {
+        let mut random_numbers = vec![];
+        for _ in 0..100 {
+            random_numbers.push(get_random_number_in_range(0..10));
+        }
+        let mut unique_numbers = random_numbers.clone();
+        unique_numbers.sort();
+        unique_numbers.dedup();
+        assert!(unique_numbers.len() > 1);
+    }
+
+    #[test]
+    fn test_within_provided_range() {
+        let max = 50;
+        let min = 10;
+        for _ in 0..100 {
+            let random_number = get_random_number_in_range(min..max);
+            assert!(random_number >= min && random_number < max);
+        }
+    }
+}
